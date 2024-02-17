@@ -39,22 +39,22 @@ import UsersList from '@/components/UsersList.vue';
     margin-bottom: 1rem;
     color: #41B883;
   }
-}
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  border-radius: 15px;
-}
+  & table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    border-radius: 15px;
 
-th {
-  border: 1px solid white;
-  padding: 1rem;
-  color: #41B883;
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: left;
-  background-color: #34495E;
+    & th {
+      border: 1px solid white;
+      padding: 1rem;
+      color: #41B883;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      background-color: #34495E;
+    }
+  }
 }
 </style>

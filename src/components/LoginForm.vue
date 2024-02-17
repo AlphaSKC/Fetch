@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Ref } from 'vue';
+import { ref, computed } from 'vue';
+import type { Ref, ComputedRef } from 'vue';
 import { RouterLink } from 'vue-router'
 import router from '@/router';
 
@@ -9,6 +9,10 @@ const password: Ref<string> = ref('');
 
 const errors: Ref<Array<{ field: string; message: string }>> = ref([]);
 
+const changeButtonState: ComputedRef<boolean> = computed(() => {
+  return email.value.trim() !== '' && password.value.trim() !== '';
+});
+
 const submit = () => {
   clearErrors();
   if (email.value == 'kevcb2003@gmail.com' && password.value == '123456') {
@@ -16,7 +20,7 @@ const submit = () => {
     router.push('/home');
   }
   if (email.value != 'kevcb2003@gmail.com') {
-    errors.value.push({ field: 'email', message: 'El correo no es valido' });
+    errors.value.push({ field: 'email', message: 'El correo no ha sido registrado' });
   } else {
     if (password.value != '123456') {
       errors.value.push({ field: 'password', message: 'La contraseña no es la correcta' });
@@ -48,7 +52,7 @@ const clearErrors = () => {
         </span>
       </div>
       <div>
-        <button type="submit">Ingresar</button>
+        <button type="submit" :disabled="!changeButtonState">Ingresar</button>
       </div>
     </form>
     <p>¿No cuentas todavia con una cuenta?</p>
@@ -72,6 +76,61 @@ const clearErrors = () => {
     color: #41B883;
   }
 
+  & .form {
+    width: 30vw;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #34495E;
+    border-radius: 8px;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 4px 8px rgb(255, 255, 255);
+
+    & label {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #41B883;
+    }
+
+    & input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      font-size: 1.1rem;
+      border: 2px solid black;
+      border-radius: 5px;
+    }
+
+    & button {
+      background-color: #41B883;
+      color: white;
+      padding: 1rem;
+      margin: 1rem;
+      font-size: 1.6rem;
+      font-weight: bold;
+      border: 2px solid black;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    & button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    & .error {
+      color: white;
+      font-size: 1.1rem;
+      background-color: #3755da;
+      padding: 5px;
+      border: 2px solid black;
+      border-radius: 5px;
+      display: block;
+      margin-top: 5px;
+    }
+  }
+
   & p {
     font-size: 1.5rem;
     margin-top: 1rem;
@@ -80,55 +139,5 @@ const clearErrors = () => {
   & .link {
     font-size: 1.5rem;
   }
-}
-
-.form {
-  width: 30vw;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #34495E;
-  border-radius: 8px;
-  border: 2px solid #FFFFFF;
-  box-shadow: 0 4px 8px rgb(255, 255, 255);
-}
-
-label {
-  display: block;
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: #41B883;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  box-sizing: border-box;
-  font-size: 1.1rem;
-  border: 2px solid black;
-  border-radius: 5px;
-}
-
-button {
-  background-color: #41B883;
-  color: white;
-  padding: 1rem;
-  margin: 1rem;
-  font-size: 1.6rem;
-  font-weight: bold;
-  border: 2px solid black;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.error {
-  color: white;
-  font-size: 1.1rem;
-  background-color: #3755da;
-  padding: 5px;
-  border: 2px solid black;
-  border-radius: 5px;
-  display: block;
-  margin-top: 5px;
 }
 </style>

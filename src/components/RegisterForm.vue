@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import type { Ref } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import type { Ref, ComputedRef } from 'vue';
 
 const name: Ref<string> = ref('');
 const lastname: Ref<string> = ref('');
@@ -8,7 +8,10 @@ const age: Ref<number> = ref(0);
 const email: Ref<string> = ref('');
 const password: Ref<string> = ref('');
 const errors: Ref<Array<{ field: string; message: string }>> = ref([]);
-const isValid: Ref<boolean> = ref(false);
+
+const changeButtonState: ComputedRef<boolean> = computed(() => {
+  return errors.value.length === 0;
+});
 
 const validateForm = () => {
   clearErrors();
@@ -34,8 +37,6 @@ const validateForm = () => {
   if (password.value.length < 6) {
     errors.value.push({ field: 'password', message: 'La contraseña debe tener al menos 6 caracteres' });
   }
-
-  isValid.value = errors.value.length === 0;
 };
 
 const clearErrors = () => {
@@ -88,7 +89,7 @@ onMounted(() => {
         </span>
       </div>
       <div>
-        <button type="submit" :disabled="!isValid">Registrar</button>
+        <button type="submit" :disabled="!changeButtonState">Registrar</button>
       </div>
     </form>
     <p>¿Ya tienes una cuenta?</p>
@@ -112,6 +113,62 @@ onMounted(() => {
     color: #41B883;
   }
 
+  & .form {
+    width: 30vw;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #34495E;
+    border-radius: 8px;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 4px 8px rgb(255, 255, 255);
+
+    & label {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #41B883;
+    }
+
+    & input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      font-size: 1.1rem;
+      border: 2px solid black;
+      border-radius: 5px;
+    }
+
+    & button {
+      background-color: #41B883;
+      color: white;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-size: 1.6rem;
+      font-weight: bold;
+      border: 2px solid black;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    & button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    & .error {
+      color: white;
+      font-size: 1.1rem;
+      background-color: #3755da;
+      padding: 5px;
+      border: 2px solid black;
+      border-radius: 5px;
+      display: block;
+      margin-top: 5px;
+    }
+  }
+
+
   & p {
     font-size: 1.5rem;
     margin-top: 1rem;
@@ -120,60 +177,5 @@ onMounted(() => {
   & .link {
     font-size: 1.5rem;
   }
-}
-
-.form {
-  width: 30vw;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #34495E;
-  border-radius: 8px;
-  border: 2px solid #FFFFFF;
-  box-shadow: 0 4px 8px rgb(255, 255, 255);
-}
-
-label {
-  display: block;
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: #41B883;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  box-sizing: border-box;
-  font-size: 1.1rem;
-  border: 2px solid black;
-  border-radius: 5px;
-}
-
-button {
-  background-color: #41B883;
-  color: white;
-  padding: 1rem;
-  margin-top: 1rem;
-  font-size: 1.6rem;
-  font-weight: bold;
-  border: 2px solid black;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.error {
-  color: white;
-  font-size: 1.1rem;
-  background-color: #3755da;
-  padding: 5px;
-  border: 2px solid black;
-  border-radius: 5px;
-  display: block;
-  margin-top: 5px;
 }
 </style>
